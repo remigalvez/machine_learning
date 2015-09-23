@@ -2,7 +2,7 @@ function [ class, ids ] = knn_classify( X, C, z, k )
 %KNN_CLASSIFY Summary of this function goes here
 %   Detailed explanation goes here
     
-    ids = knnsearch(X, z, 'k', k);
+    ids = knnsearch(X, z, 'K', k);
     
     vote = zeros(10, 1);
     max = 0;
@@ -25,7 +25,5 @@ function [ class, ids ] = knn_classify( X, C, z, k )
             end
         end
     end
-    
-    disp(vote);
 end
 
