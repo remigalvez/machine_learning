@@ -21,7 +21,7 @@ function [ ignore ] = perceptron_display_mistakes( data, perc, i )
     lines = findobj('type','line');
     delete(lines);
     
-    plot(x1, fTheta, 'b');
+    plot(x1, fTheta, 'k');
     plot(x1, fClassifier, 'r');
     
     delete(point);

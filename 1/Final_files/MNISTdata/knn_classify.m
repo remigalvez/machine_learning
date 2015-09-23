@@ -1,8 +1,14 @@
-function [ class, ids ] = knn_classify( X, C, z, k )
+function [ class, ids ] = knn_classify( X, C, z, k, varargin )
 %KNN_CLASSIFY Summary of this function goes here
 %   Detailed explanation goes here
     
-    ids = knnsearch(X, z, 'K', k);
+    args = 4;
+
+    if nargin > args
+        ids = knnsearch(X, z, 'K', k, 'Distance', varargin{1});
+    else
+        ids = knnsearch(X, z, 'K', k);
+    end
     
     vote = zeros(10, 1);
     max = 0;

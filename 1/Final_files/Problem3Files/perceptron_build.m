@@ -7,6 +7,12 @@ function[ perc ] = perceptron_build( data )
     
     mistakes = zeros(Xn, 1);
     
+    figure;
+    title('Visualization of perceptron algorithm on data set');
+    dim = [.6 .2 .1 .1];
+    str = {'Black line - Classifier';'Red line - Orthogonal vector';'Green circles - (+1) data points';'Blue circles - (-1) data points';'Red circles - mistake'};
+    annotation('textbox',dim,'String',str,'Color','r','FitBoxToText','on');
+    
     for n = 1:Xn
         x = data.data.X(n,:)';                     % Coordinates of relevant point
         y = data.data.y(n);                        % Corresponding label
