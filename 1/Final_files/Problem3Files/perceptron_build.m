@@ -1,30 +1,38 @@
-function[ perc ] = perceptron_build( data )
-%PERCEPTRON_BUILD Implementation of perceptron
-%   
+function[ perc ] = perceptron_build( data ) 
 
-    theta = [0; 0];                                 % Current parameters vector
-    Xn = size(data.data.X, 1);                     % Number of points in dataset
+    % Instantiate initial classifier vector and dataset size
+    theta = [0; 0];
+    Xn = size(data.data.X, 1);
     
+    % Instantiate mistake tracker
     mistakes = zeros(Xn, 1);
     
+    % Create new figure and decorate
     figure;
     title('Visualization of perceptron algorithm on data set');
     dim = [.6 .2 .1 .1];
     str = {'Black line - Classifier';'Red line - Orthogonal vector';'Green circles - (+1) data points';'Blue circles - (-1) data points';'Red circles - mistake'};
     annotation('textbox',dim,'String',str,'Color','r','FitBoxToText','on');
     
+    % Iterate through dataset
     for n = 1:Xn
-        x = data.data.X(n,:)';                     % Coordinates of relevant point
-        y = data.data.y(n);                        % Corresponding label
+        % Define x (tuple) and corresponding y (label) from dataset as vars
+        x = data.data.X(n,:)';
+        y = data.data.y(n);
         
-        s = sign(y * (theta' * x));                 % Sign to assess mistakes
+        % Assess if the classifier must be updated
+        s = sign(y * (theta' * x));
 
-        if n == 1 || s < 0                          % If mistake
-            theta = theta + y*x;                    %   Update parameters vector
-            mistakes(n) = mistakes(n) + 1;          %   Add one to mistake count
+        % If classifier must be updated
+        if n == 1 || s < 0
+            % Update classifier and increment mistake count for n-th data point
+            theta = theta + y*x;
+            mistakes(n) = mistakes(n) + 1;
             
+            % Display mistakes and update classifier on graphs
             perc = struct('classifier', theta, 'mistakes', mistakes);
             perceptron_display_mistakes(data, perc, n);
+        % Else add data point to graph
         else
             hold on;
             if y == 1
