@@ -1,4 +1,4 @@
-function [ X, y ] = compute_means( trainSet, trainLabel )
+function [ X, y ] = compute_mean_vectors( trainSet, trainLabel )
 
     % Instantiate array to store average vectors (X), and corresponding
     % label vector (y)
