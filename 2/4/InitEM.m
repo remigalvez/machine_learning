@@ -1,4 +1,4 @@
-function [ params, loglikes ] = EM( X, k, varargin )
+function [ params, loglikes ] = InitEM( X, k, varargin )
     % params = (<mu_1>,...,<mu_k>,variance_1,...,variance_k, p1,...,pk)
     % omega = proportions
     % mu = means
@@ -21,18 +21,21 @@ function [ params, loglikes ] = EM( X, k, varargin )
         proportions(i) = 1/k;
     end
     
-    
-    % Generate k random values
-    randomValues = randi([1 dataSize],k,1);
     % Initialize means vector
     means = zeros(k,d);
-    for i = 1:k
-        idx = randomValues(i,1);
-        means(i,:) = X(idx,:);
+    if k == 3
+        rand = randi([1 dataSize],1,1);
+        means(1,:) = X(rand(1),:);
+    else
+        means(1,:) = X(1,:);
+    end
+    
+    for i = 2:k
+        means(i,:) = X(1,:);
     end
     
     % Initialize covariances
-    variances = eye(k);
+    variances = zeros(k);
     
     % Initialize 
     condProb = zeros(dataSize,k);
@@ -72,7 +75,7 @@ function [ params, loglikes ] = EM( X, k, varargin )
     figure;
     x = linspace(1,MAX_ITERATIONS,MAX_ITERATIONS);
     plot(x,loglikes);
-    title(['EM: (k = ' num2str(k) ', Iterations = ' num2str(MAX_ITERATIONS) ')']);
+    title(['EM with special init params: (k = ' num2str(k) ', Iterations = ' num2str(MAX_ITERATIONS) ')']);
     
     params = zeros(3*k,d);
     

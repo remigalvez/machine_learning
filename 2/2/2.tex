@@ -1,0 +1,98 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+
+\begin{document}
+
+\noindent
+2. \textbf{Boosting}\\
+
+\noindent
+We denote the weighted training error as the sum of all weighted errors over the sum of all weights.
+\begin{equation}
+	\epsilon_t = \frac{W_l}{W_c + W_l}
+\end{equation}
+We denote $Z_t$ as the sum of the weights of each data point, that is
+\begin{equation}
+	Z_t = W_c + W_l
+\end{equation}\\
+Replacing $\epsilon_t$ in $\alpha$ with (1), 
+\begin{equation}
+	\alpha = \frac{1}{2} \cdot log\left(\frac{W_c}{W_l}\right)
+\end{equation}
+
+(a) All notation defined in the problem set.\\
+\\
+At each iteration $t$ of $T$, all weights $w_i^{(t)}$ will be multiplied by $e^{-y_i\alpha_th_t(x_i)}$ to give $w_i^{(t+1)}$.\\
+The product $-y_i\cdot h_t(x_i)$ will give $+1$ when the prediction for the i-th data point matches its corresponding label, and $-1$ when the point is misclassified.\\
+Hence, the weight of all correctly classified points will be multiplied by $e^{-\alpha}$, and the weight of all misclassified points will be multiplied by $e^{\alpha}$.\\
+That is:
+$$W_l^{(t+1)} = W_l^{(t)} \cdot e^{\alpha}$$
+and 
+$$W_c^{(t+1)} = W_c^{(t)} \cdot e^{-\alpha}$$
+\\
+Using (2), 
+\begin{equation}
+	Z_{t+1} = W_l^{(t)} \cdot e^{\alpha} + W_c^{(t)} \cdot e^{-\alpha}
+\end{equation}
+We call $z(\alpha)$ the function to compute $Z_{t+1}$ from $\alpha$ (see equation (3)).\\
+
+To minimize this function, we call $z'(\alpha)$ the derivative of $z(\alpha)$ with respect to $\alpha$, set it to $0$, and solve for $\alpha$.\\
+\\
+
+\begin{align*}
+	z'(\alpha) = & \quad W_l^{(t)} \cdot e^\alpha - W_c^{(t)} \cdot e^{-\alpha}  = 0 \\
+	\Longleftrightarrow & \quad W_l^{(t)} \cdot e^\alpha = W_c^{(t)} \cdot e^{-\alpha} \\
+	\Longleftrightarrow & \quad \frac{e^\alpha}{e^{-\alpha}} = \frac{W_c^{(t)}}{W_l^{(t)}}\\
+	\Longleftrightarrow & \quad 2\alpha = log\left(\frac{W_c^{(t)}}{W_l^{(t)}}\right)\\
+\end{align*}
+
+\begin{align*}
+	\Longleftrightarrow & \quad \boxed{\alpha = \frac{1}{2} \cdot log\left(\frac{1-\epsilon_t}{\epsilon_t}\right)}
+\end{align*}\\
+\\
+We find that $\alpha = \frac{1}{2} log \frac{1-\epsilon_t}{\epsilon_t}$ is optimal in the sense that it minimizes $Z_{t+1}$\\
+\\
+
+(b) To show that $Z_t$ is monotonically decreasing, we will start with the assumption that $Z_t < Z_{t+1}$, and prove that this is true.\\
+\\
+
+\begin{align*}
+	Z_{t+1} < Z_t&\\
+	\Longleftrightarrow & \quad W_l^{(t)} \cdot e^\alpha + W_c^{(t)} \cdot e^{-\alpha} < W_l^{(t)} + W_c^{(t)}\\
+	\Longleftrightarrow & \quad W_l^{(t)} \cdot (e^\alpha - 1) + W_c^{(t)} \cdot (e^{-\alpha} - 1) < 0\\
+	\Longleftrightarrow & \quad \frac{e^\alpha - 1}{e^{-\alpha} - 1} < - \frac{W_c^{(t)}}{W_l^{(t)}}\\
+	\Longleftrightarrow & \quad e^\alpha < \frac{W_c^{(t)}}{W_l^{(t)}}\\
+	\Longleftrightarrow & \quad \alpha < log\left(\frac{W_c^{(t)}}{W_l^{(t)}}\right)\\
+	\Longleftrightarrow & \quad \frac{1}{2} \cdot log\left(\frac{1-\epsilon_t}{\epsilon_t}\right) < log\left(\frac{1-\epsilon_t}{\epsilon_t}\right)\\
+	\Longleftrightarrow & \quad \boxed{\frac{1}{2} < 1}
+\end{align*}
+\\
+\\
+The statement holds, therefore, for all $Z_t$, $Z_{t+1}$ is smaller. Hence, the sum of weights $Z_t$ is monotonically decreasing as a function of $t$.
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
